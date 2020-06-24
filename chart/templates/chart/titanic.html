@@ -1,0 +1,55 @@
+{% extends "home.html" %}
+{% block title %}Django Highcharts Example{% endblock %}
+{% block content %}
+<div id="container"></div>
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script>
+Highcharts.chart('container', {
+    chart: {
+        zoomType: 'xy'
+    },
+    title: {
+           text: 'Titanic Survivors by Ticket Class'
+            },
+    xAxis: [{
+            categories: {{ categories|safe }}
+            }],
+    yAxis:[{
+        labels: {
+            format: '{value}명'
+        },
+        title: {
+            text: '인원',
+        },
+        opposite: true
+    },{
+        labels: {
+            format: '{value}%'
+        },
+        title: {
+            text: '생존률',
+        }
+    }],
+
+    series: [{
+        name: 'Survived',
+        type: 'column',
+        data: {{ survived_series_data }},
+        color: '#8EA8F6'
+    }, {
+        name: 'Not Survived',
+        type: 'column',
+        data: {{ not_survived_series_data }},
+        color: '#FA908E'
+    },{
+        name:'Survived per',
+        type: 'spline',
+        yAxis: 1,
+        data: {{ survived_rate }},
+        color:'#8CF4B2'
+    }],
+
+});
+    </script>
+{% endblock %}
+

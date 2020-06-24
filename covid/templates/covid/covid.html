@@ -1,0 +1,58 @@
+{% extends "home.html" %}
+{% block title %}Django Highcharts Example{% endblock %}
+{% block content %}
+<div id="container"></div>
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script>
+Highcharts.chart('container', {
+    chart: {
+        type: "spline",
+        borderColor: "#9DB0AC",
+        borderWidth: 3
+    },
+    title: {
+           text: 'COVID-19 Cases by Country'
+            },
+
+    xAxis: [{
+        type:'datetime',
+        labels: {
+            format: '{value: %e.%b}',
+        },
+        dateTimeLabelFormats: {
+            month: '%e. %b',
+            year: '%b'
+        },
+        categories:{{categories|safe}}
+            }],
+
+    yAxis: [{
+        labels: {format: "{value} 건/백만 명", style: {"color": "#8EA8F6"}},
+        title: {text: "확진자수", style: {"color": "#8EA8F6"}}
+    }],
+
+    tooltip: {
+        headerFormat: '<b>{series.name}</b><br>',
+        pointFormat: '{point.x:%e. %b}: {point.y:.2f}'
+    },
+
+    series: [{
+        name: 'Korea',
+        data: {{ korea }}
+    },{
+        name: 'China',
+        data: {{ china }}
+    },{
+        name: 'UK',
+        data: {{ uk }}
+    },{
+        name: 'US',
+        data: {{ us }}
+    },{
+        name: 'France',
+        data: {{ france }}
+    }],
+
+});
+    </script>
+{% endblock %}
